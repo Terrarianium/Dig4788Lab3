@@ -24,6 +24,6 @@ public class FacePlayer : MonoBehaviour
         float signedAngle = Vector3.SignedAngle(transform.up, directionDifferent, Vector3.forward);
         Vector3 rotation = new Vector3(0, 0, signedAngle + 90);
 
-        transform.Rotate(rotation * Time.deltaTime * 5);
+        transform.Rotate(rotation * Time.deltaTime * 10);
     }
 }
