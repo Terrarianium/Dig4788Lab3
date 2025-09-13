@@ -1,27 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class EnemyOrbit : MonoBehaviour
 {
-    public Transform enemy, player;
-    public Vector2 enemyPos, playerPos, direction, perpendicular;
-
-
-    private void Start()
-    {
-        player.position = new Vector2(0, 0);
-
-    }
+    public Transform player;
+    public float speedMultiplier = 1f;
+    public float minSpeed = 0.5f;
+    public float maxSpeed = 5f;
 
     private void Update()
     {
-        float speed = 1f;
-        enemyPos = transform.position;
-        playerPos = player.position;
-        direction = playerPos - enemyPos;
-        perpendicular = Vector2.Perpendicular(direction);
-        Vector2.MoveTowards(enemyPos, perpendicular, speed * Time.deltaTime);
+        if (player == null) return;
+
+        // Calculate distance to player
+        float distance = Vector2.Distance(transform.position, player.position);
+
+        // Calculate speed based on distance (clamped for stability)
+        float speed = Mathf.Clamp(distance * speedMultiplier, minSpeed, maxSpeed);
+
+        // Move perpendicularly to the player (tangent to the orbit)
+        // If facing the player, transform.right is perpendicular
+        transform.position += transform.right * speed * Time.deltaTime;
     }
 }
